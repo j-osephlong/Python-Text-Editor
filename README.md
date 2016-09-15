@@ -3,7 +3,10 @@ A simple console text editor made in Python
 
 #How to run
 Run the program just as you would any other python script.
+
+
   .\text-editor.py filename.fileextention
+
 You may need to create a file named file.txt within the programs folder inorder for it to run.
 
 #Commands

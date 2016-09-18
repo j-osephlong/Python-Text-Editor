@@ -42,8 +42,6 @@ def unique_words():
 	print(len(unique), "unique words")
 	print(unique)
 
-def remove()
-
 def interperit(command):
 	global text
 	global filename
@@ -86,12 +84,11 @@ def interperit(command):
 	elif command_list[0] == "unique":
 		unique_words()
 	elif command_list[0] == "remove":
-		for line in text:
-			if len(command_list) > 2: 
-				line.replace(command_list[1][1:], "")
+		for b in range(0, len(text)):
+			if not len(command_list) > 2: 
+				text[b] = text[b].replace(command_list[1][1:], " ")
 			else:
-				line.replace(command_list[1][1:], command_list[2][1:])
-
+				text[b] = text[b].replace(command_list[1][1:], command_list[2][1:])
 
 def main():
 	os.system("cls")

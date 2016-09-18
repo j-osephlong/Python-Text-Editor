@@ -1,3 +1,8 @@
+##Created by Joseph Long 2016
+##First python project
+##Simple Text Editor
+	##github.com/whatHappenedToBrendanFraser/Text-Editor
+
 import os
 import sys
 
@@ -17,7 +22,7 @@ def open_text(name=filename):
 def print_text():
 	x = 0
 	for line in text:
-		print(x, line)
+		print("    ", x, line)
 		x+=1
 
 def save_text(name=filename):
@@ -26,6 +31,18 @@ def save_text(name=filename):
 		f.write(line + "\n")
 	f.close()
 
+def unique_words():
+	f = open(filename)
+	unique = []
+	for line in text:
+		words = line.split(" ")
+		for word in words:
+			if word not in unique:
+				unique.append(word)
+	print(len(unique), "unique words")
+	print(unique)
+
+def remove()
 
 def interperit(command):
 	global text
@@ -52,17 +69,28 @@ def interperit(command):
 		else:
 			print_text()
 	elif command_list[0] == "nl" or command_list[0] == r"\n" or command_list[0] == "new line":
-		text.insert(int(command_list[1]), command_list[2][1:])
+		if len(command_list) > 2:
+			text.insert(int(command_list[1]), command_list[2][1:])
+		else:
+			text.append(command_list[1][1:])
 	elif command_list[0] == "find":
 		if len(command_list) > 2:
 			for b in range(int(command_list[2]), len(text)):
 				if text[b].find(command_list[1][1:]) != -1:
-					print(b, text[b])
+					print("    ", b, text[b])
 		else:
 			for b in range(0, len(text)):
 				if text[b].find(command_list[1][1:]) != -1:
-					print(b, text[b])
+					print("    ", b, text[b])
 	elif command_list[0] == "clear": os.system("cls")
+	elif command_list[0] == "unique":
+		unique_words()
+	elif command_list[0] == "remove":
+		for line in text:
+			if len(command_list) > 2: 
+				line.replace(command_list[1][1:], "")
+			else:
+				line.replace(command_list[1][1:], command_list[2][1:])
 
 
 def main():

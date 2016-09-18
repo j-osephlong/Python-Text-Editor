@@ -48,3 +48,8 @@ Commands and their argumennts are separated by commas
   
     After line num argument is optional, running command without it will search the whole file
     
+  -remove, [string], [replace-with-string]
+  
+    Removes any cases of a string in file (string), and replaces this with a new string [replace-with-string]
+    
+    Replace with string argument is optional, running command with out it just removes the requested string

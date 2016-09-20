@@ -8,7 +8,7 @@ import sys
 
 text = []
 filename = "file.txt"
-
+clipboard = ""
 
 def open_text(name=filename):
 	global text
@@ -46,8 +46,9 @@ def interperit(command):
 	global text
 	global filename
 	global auto_print
+	global clipboard
 	command_list = command.split(",")
-	
+
 	if command_list[0] == "change":
 		text[int(command_list[1])] = command_list[2][1:]
 	elif command_list[0] == "open":
@@ -72,21 +73,16 @@ def interperit(command):
 		else:
 			text.append(command_list[1][1:])
 	elif command_list[0] == "find":
-		if len(command_list) > 2:
-			for b in range(int(command_list[2]), len(text)):
-				if text[b].find(command_list[1][1:]) != -1:
-					print("    ", b, text[b])
-		else:
-			for b in range(0, len(text)):
-				if text[b].find(command_list[1][1:]) != -1:
-					print("    ", b, text[b])
+		for b in range(0, len(text)):
+			if text[b].find(command_list[1][1:]) != -1:
+				print("    ", b, text[b])
 	elif command_list[0] == "clear": os.system("cls")
 	elif command_list[0] == "unique":
 		unique_words()
 	elif command_list[0] == "remove":
 		for b in range(0, len(text)):
 			if not len(command_list) > 2: 
-				text[b] = text[b].replace(command_list[1][1:], " ")
+				text[b] = text[b].replace(command_list[1][1:], "")
 			else:
 				text[b] = text[b].replace(command_list[1][1:], command_list[2][1:])
 
@@ -101,6 +97,9 @@ def main():
 	open_text(filename)
 
 	while 1:
-		interperit(input(">>>"))
+		try:
+			interperit(input(">>>"))
+		except:
+			print("Command failed")
 
 main()

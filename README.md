@@ -53,3 +53,26 @@ Commands and their argumennts are separated by commas
     Removes any cases of a string in file (string), and replaces this with a new string [replace-with-string]
     
     Replace with string argument is optional, running command with out it just removes the requested string
+    
+#Plugin support
+The newest update allows for plugin support. All plugins have a text file, called their list file, named the same as the python file for the plugin, which lists all of the functions in the python file.
+
+For example, if you had two functions in the python file, the list file will list the function's names like so,
+
+  node.txt
+  
+    node_function
+    
+    second_node_function
+    
+When a plugin function is called, the text editor creates a temporary file and outputs the currently opened file into it. This is used so the plugins can manipulate the text file. When the function exits, the text editor opens and then deletes the temp file. 
+
+    -load, [plugin]
+    
+  Loads the specified plugin (plugin). If the plugin's list file is named node.txt, the plugin argument would be just node.
+  
+    -[plugin function] [arg1] [arg2] [arg3] ...
+    
+  Runs specified plugin function (plugin function), as listed in plugin list file, with as many arguments (arg1, arg2, arg3, ...) as the function calls for.
+  
+Theoretically plugins allow the skilled python programmer could use this to do really cool things with data and stuff. Amen.

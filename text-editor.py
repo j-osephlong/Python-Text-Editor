@@ -7,6 +7,7 @@ import os
 import sys
 
 text = []
+loaded = []
 filename = "file.txt"
 clipboard = ""
 
@@ -31,37 +32,30 @@ def save_text(name=filename):
 		f.write(line + "\n")
 	f.close()
 
-def unique_words():
-	f = open(filename)
-	unique = []
-	for line in text:
-		words = line.split(" ")
-		for word in words:
-			if word not in unique:
-				unique.append(word)
-	print(len(unique), "unique words")
-	print(unique)
-
 def interperit(command):
 	global text
 	global filename
 	global auto_print
-	global clipboard
 	command_list = command.split(",")
 
 	if command_list[0] == "change":
-		text[int(command_list[1])] = command_list[2][1:]
+		try: text[int(command_list[1])] = command_list[2][1:]
+		except: print("\tCommand either missing arguments or one of the arguments are out of range")
 	elif command_list[0] == "open":
-		if len(command_list) > 1:
-			filename = command_list[1][1:]
-			open_text(filename)
-		else:
-			open_text()
+		try:
+			if len(command_list) > 1:
+				filename = command_list[1][1:]
+				open_text(filename)
+			else:
+				open_text()
+		except: print("\tFile not found")
 	elif command_list[0] == "save":
 		if(len(command_list) > 1):
 			save_text(command_list[1][1:])
 		else:
 			save_text()
+	elif command_list[0] == "new":
+		filename = command_list[1]
 	elif command_list[0] == "print":
 		if len(command_list) > 1:
 			print(text[int(command_list[1])])
@@ -77,14 +71,35 @@ def interperit(command):
 			if text[b].find(command_list[1][1:]) != -1:
 				print("    ", b, text[b])
 	elif command_list[0] == "clear": os.system("cls")
-	elif command_list[0] == "unique":
-		unique_words()
 	elif command_list[0] == "remove":
 		for b in range(0, len(text)):
 			if not len(command_list) > 2: 
 				text[b] = text[b].replace(command_list[1][1:], "")
 			else:
 				text[b] = text[b].replace(command_list[1][1:], command_list[2][1:])
+	elif command_list[0] == "load":
+		try:
+			f = open(command_list[1][1:]+".txt", "r")
+			for line in f:
+				if not line in loaded:
+					loaded.append(line.strip() + ":"+ command_list[1][1:] + ".py")
+			print("\tNode loaded")
+		except FileNotFoundError:
+			print("\tNo such node found")
+	elif command_list[0] == "nodes": print("\t" + loaded)
+	else:
+		save_text("text.temp")
+		for b in loaded:
+			node = b.split(":")
+			if command_list[0] == node[0]:
+				args = []
+				if len(command_list) > 1:
+					for arg in command_list[1:]:
+						args.append(arg)
+				os.system(".\\"+ node[1] + " " + node[0] + " ".join(args))
+				break
+		open("text.temp")
+		os.remove("text.temp")
 
 def main():
 	os.system("cls")
@@ -94,12 +109,10 @@ def main():
 		filename = sys.argv[1]
 
 	global text
-	open_text(filename)
+	try: open_text(filename)
+	except: print("Default file not found\n\t\"file.txt\" is missing")
 
 	while 1:
-		try:
-			interperit(input(">>>"))
-		except:
-			print("Command failed")
+		interperit(input(">>>"))
 
 main()

@@ -55,24 +55,18 @@ Commands and their argumennts are separated by commas
     Replace with string argument is optional, running command with out it just removes the requested string
     
 #Plugin support
-The newest update allows for plugin support. All plugins have a text file, called their list file, named the same as the python file for the plugin, which lists all of the functions in the python file.
+The newest update allows for plugin support. 
 
-For example, if you had two functions in the python file, the list file will list the function's names like so,
-
-  node.txt
-  
-    node_function
-    
-    second_node_function
-    
-When a plugin function is called, the text editor creates a temporary file and outputs the currently opened file into it. This is used so the plugins can manipulate the text file. When the function exits, the text editor opens and then deletes the temp file. 
+A plugin is a python script which loads the temporay .temp file which the text editor creates for the time the plugin is being run, containing the currently loaded file in the text editor, and makes changes to the temp file, which will be loaded when the plugin is done being executed. Alternativly, the plugin does not nessicarily need to make changes to the temp file at all, it may just load the temp file and maybe do analytics on it. In theory, the plugin doesn't need to do anything with the temp file at all, it just needs to be a python script.  
 
     -load, [plugin]
     
-  Loads the specified plugin (plugin). If the plugin's list file is named node.txt, the plugin argument would be just node.
+Checks if the specified plugin (plugin) exists as a python file, and adds to list of existing plugins. For example if you have a plugin whose filename is "plugin.py", you would use the command "load, plugin". This needs to be run before the plugin can be used.
+
+Note that the plugin must be in the same folder as the text editor. 
   
-    -[plugin function] [arg1] [arg2] [arg3] ...
+    -[plugin] [arg1] [arg2] [arg3] ...
     
-  Runs specified plugin function (plugin function), as listed in plugin list file, with as many arguments (arg1, arg2, arg3, ...) as the function calls for.
-  
-Theoretically plugins allow the skilled python programmer could use this to do really cool things with data and stuff. Amen.
+Runs specified plugin (plugin), with as many arguments (arg1, arg2, arg3, ...) as the plugin calls for.
+
+An example of a functioning plugin is the graphing.py plugin.

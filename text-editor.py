@@ -9,7 +9,7 @@ import sys
 text = []
 loaded = []
 filename = "file.txt"
-clipboard = ""
+autosave = False
 
 def open_text(name=filename):
 	global text
@@ -35,27 +35,34 @@ def save_text(name=filename):
 def interperit(command):
 	global text
 	global filename
-	global auto_print
+	global autosave
 	command_list = command.split(",")
 
 	if command_list[0] == "change":
 		try: text[int(command_list[1])] = command_list[2][1:]
 		except: print("\tCommand either missing arguments or one of the arguments are out of range")
 	elif command_list[0] == "open":
-		try:
-			if len(command_list) > 1:
-				filename = command_list[1][1:]
-				open_text(filename)
-			else:
-				open_text()
-		except: print("\tFile not found")
+		if len(command_list) > 1:
+			filename = command_list[1][1:]
+			open_text(filename)
+		else:
+			open_text()
 	elif command_list[0] == "save":
 		if(len(command_list) > 1):
 			save_text(command_list[1][1:])
 		else:
 			save_text()
+	elif command_list[0] == "autosave":
+		if autosave:
+			autosave = False
+			print("\tAutosave disabled")
+		else:
+			autosave = True
+			print("\tAutosave enabled")
 	elif command_list[0] == "new":
-		filename = command_list[1]
+		filename = command_list[1][1:]
+		save_text(command_list[1])
+		text[:] = []
 	elif command_list[0] == "print":
 		if len(command_list) > 1:
 			print(text[int(command_list[1])])
@@ -78,29 +85,18 @@ def interperit(command):
 			else:
 				text[b] = text[b].replace(command_list[1][1:], command_list[2][1:])
 	elif command_list[0] == "load":
-		try:
-			f = open(command_list[1][1:]+".txt", "r")
-			for line in f:
-				if not line in loaded:
-					loaded.append(line.strip() + ":"+ command_list[1][1:] + ".py")
-			print("\tNode loaded")
-		except FileNotFoundError:
-			print("\tNo such node found")
-	elif command_list[0] == "nodes": print("\t" + loaded)
-	else:
+		try: 
+			f = open(command_list[1][1:] + ".py", "r")
+			f.close
+			loaded.append(command_list[1][1:])
+		except: print("\tCouldn't load " + command_list[1] + ",\n\t\tPlugin does not exist")
+		print(loaded)
+	elif command_list[0] in loaded:
 		save_text("text.temp")
-		for b in loaded:
-			node = b.split(":")
-			if command_list[0] == node[0]:
-				args = []
-				if len(command_list) > 1:
-					for arg in command_list[1:]:
-						args.append(arg)
-				os.system(".\\"+ node[1] + " " + node[0] + " ".join(args))
-				break
+		args = " ".join(command_list[1:])
+		os.system(".\\" + command_list[0] + ".py " + args)
 		open("text.temp")
 		os.remove("text.temp")
-
 def main():
 	os.system("cls")
 	global filename
@@ -114,5 +110,6 @@ def main():
 
 	while 1:
 		interperit(input(">>>"))
+		if autosave: save_text()
 
 main()

@@ -1,7 +1,7 @@
 # Python-Text-Editor
 A simple console text editor made in Python
 
-#How to run
+# How to run
 Run the program just as you would any other python script.
 
 
@@ -9,7 +9,7 @@ Run the program just as you would any other python script.
 
 You may need to create a file named file.txt within the programs folder inorder for it to run.
 
-#Commands
+# Commands
 Commands and their argumennts are separated by commas
 
   -open, [file path]
@@ -54,7 +54,7 @@ Commands and their argumennts are separated by commas
     
     Replace with string argument is optional, running command with out it just removes the requested string
     
-#Plugin support
+# Plugin support
 The newest update allows for plugin support. 
 
 A plugin is a python script which loads the temporay .temp file which the text editor creates for the time the plugin is being run, containing the currently loaded file in the text editor, and makes changes to the temp file, which will be loaded when the plugin is done being executed. Alternativly, the plugin does not nessicarily need to make changes to the temp file at all, it may just load the temp file and maybe do analytics on it. In theory, the plugin doesn't need to do anything with the temp file at all, it just needs to be a python script.  

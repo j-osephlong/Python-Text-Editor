@@ -1,3 +1,9 @@
+## Hi, I made this when I was 15. Beware.
+I made this as a first project to learn python when I was 15. This means that not only is this probably useless, but it has large oversights aswell.
+For example, try to add a line whose contents includes a ','. **You can't**, cause I decided to use ',' as a delimiter for commands.
+
+While this is useless, I'm keeping it up with this disclaimer for anyone who would like to use this as a learning experience for learning Python. Try and fix the many problems it has!
+
 # Python-Text-Editor
 A simple console text editor made in Python
 
